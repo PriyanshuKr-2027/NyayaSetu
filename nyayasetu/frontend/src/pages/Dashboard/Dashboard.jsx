@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { getGlobalStats, getUserHistory } from "@/lib/api"
+import { getUserHistory, deleteAnalysis } from "@/lib/api"
 import { supabase } from "@/lib/supabase"
+import { toast } from "sonner"
 
 export default function Dashboard() {
   const navigate = useNavigate()
-  const [stats, setStats] = useState({ total_analyses: 0, total_tokens_saved: 0, total_co2_saved_grams: 0 })
   const [history, setHistory] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -13,14 +13,8 @@ export default function Dashboard() {
     async function fetchData() {
       try {
         const { data: { user } } = await supabase.auth.getUser()
-        
-        const [statsData, historyData] = await Promise.all([
-          getGlobalStats().catch(() => ({ total_analyses: 0, total_tokens_saved: 0, total_co2_saved_grams: 0 })),
-          user ? getUserHistory(user.id).catch(() => []) : Promise.resolve([])
-        ])
-        
-        setStats(statsData)
-        setHistory(historyData)
+        const data = user ? await getUserHistory(user.id).catch(() => []) : []
+        setHistory(data)
       } catch (error) {
         console.error("Dashboard fetch error:", error)
       } finally {
@@ -30,7 +24,22 @@ export default function Dashboard() {
     fetchData()
   }, [])
 
-  const costSaved = (stats.total_tokens_saved * 0.0000025).toFixed(2)
+  // Derive stats from live history array — updates instantly on delete
+  const totalAnalyses = history.length
+  const totalTokensSaved = history.reduce((sum, item) => sum + (item.tokens_saved || 0), 0)
+  const totalCo2Saved = (totalTokensSaved * 0.000001 * 708).toFixed(2)
+  const costSaved = (totalTokensSaved * 0.0000025).toFixed(2)
+
+  const handleDelete = async (id, name, e) => {
+    e.stopPropagation()
+    try {
+      await deleteAnalysis(id)
+      setHistory((prev) => prev.filter((p) => p.id !== id))
+      toast.success(`"${name}" deleted from your archive.`)
+    } catch {
+      toast.error("Failed to delete document")
+    }
+  }
 
   return (
     <div className="p-8 max-w-[1400px] w-full mx-auto">
@@ -48,7 +57,7 @@ export default function Dashboard() {
           <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-125 duration-700"></div>
           <p className="font-label text-[10px] text-slate-500 uppercase tracking-widest mb-4">Documents Analyzed</p>
           <div className="flex items-baseline gap-2">
-            <span className="font-headline text-4xl text-primary">{stats.total_analyses.toLocaleString()}</span>
+            <span className="font-headline text-4xl text-primary">{totalAnalyses.toLocaleString()}</span>
             <span className="font-mono text-xs text-secondary">+0 this week</span>
           </div>
         </div>
@@ -56,7 +65,7 @@ export default function Dashboard() {
         <div className="bg-[#1c2028] p-6 rounded-3xl relative overflow-hidden group">
           <p className="font-label text-[10px] text-slate-500 uppercase tracking-widest mb-4">Tokens Optimized</p>
           <div className="flex items-baseline gap-2">
-            <span className="font-headline text-4xl text-primary">{stats.total_tokens_saved.toLocaleString()}</span>
+            <span className="font-headline text-4xl text-primary">{totalTokensSaved.toLocaleString()}</span>
             <span className="font-mono text-[10px] text-slate-400">ScaleDown v4.2</span>
           </div>
         </div>
@@ -64,7 +73,7 @@ export default function Dashboard() {
         <div className="bg-[#1c2028] p-6 rounded-3xl relative overflow-hidden group">
           <p className="font-label text-[10px] text-slate-500 uppercase tracking-widest mb-4">CO₂ Avoided</p>
           <div className="flex items-baseline gap-2">
-            <span className="font-headline text-4xl text-secondary">{stats.total_co2_saved_grams.toLocaleString()}g</span>
+            <span className="font-headline text-4xl text-secondary">{totalCo2Saved}g</span>
             <span className="font-mono text-[10px] text-slate-500 italic">708g/kWh grid</span>
           </div>
         </div>
@@ -126,9 +135,18 @@ export default function Dashboard() {
                       </td>
                       <td className="px-6 py-4 text-xs text-slate-500 font-label">{new Date(item.created_at).toLocaleDateString()}</td>
                       <td className="px-8 py-4 text-right">
-                        <button className="text-secondary font-label text-[10px] font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 justify-end w-full">
-                          View details <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
-                        </button>
+                        <div className="flex items-center justify-end gap-3">
+                          <button className="text-secondary font-label text-[10px] font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                            View details <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+                          </button>
+                          <button
+                            onClick={(e) => handleDelete(item.id, item.document_name, e)}
+                            className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-400/10"
+                            title="Delete"
+                          >
+                            <span className="material-symbols-outlined text-[16px]">delete</span>
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))
