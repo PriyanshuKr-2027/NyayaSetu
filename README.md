@@ -12,18 +12,19 @@
 
 NyayaSetu bridges the gap between complex legal language and ordinary Indian citizens. Upload any legal document (bills, acts, policies), and our AI-powered system will:
 
-✅ **Summarize** complex legal text in simple, understandable language  
-✅ **Explain** key points and how they affect you  
-✅ **Support Multiple Languages** — English, Hindi, Tamil, Bengali, and Hinglish  
-✅ **Answer Questions** about the document using AI  
-✅ **Share Analysis** with others via secure links  
-✅ **Generate Reports** in PDF format  
+- ✅ **Summarize** complex legal text in simple, understandable language
+- ✅ **Explain** key points and how they affect you
+- ✅ **Support Multiple Languages** — English, Hindi, Tamil, Bengali, and Hinglish
+- ✅ **Answer Questions** about the document using AI
+- ✅ **Share Analysis** with others via secure links
+- ✅ **Generate Reports** in PDF format
 
 ---
 
 ## ✨ Key Features
 
 ### For Citizens
+
 - 📄 **Upload & Analyze** — Upload PDF documents and get instant AI analysis
 - 🎯 **Smart Summaries** — AI breaks down complex legal text into digestible points
 - 🌐 **Multi-Language Support** — Read summaries in English, Hindi, Tamil, Bengali, or Hinglish
@@ -33,6 +34,7 @@ NyayaSetu bridges the gap between complex legal language and ordinary Indian cit
 - 📥 **Export as PDF** — Download analysis reports for offline access
 
 ### For Developers
+
 - 🔐 **OTP-Based Authentication** — Secure email OTP signin via Supabase
 - 💾 **Cloud Database** — All data persisted in Supabase PostgreSQL
 - 🚀 **Scalable Backend** — FastAPI with support for multiple Groq API keys
@@ -46,21 +48,21 @@ NyayaSetu bridges the gap between complex legal language and ordinary Indian cit
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     Frontend (React + Vite)                |
+│                     Frontend (React + Vite)                 |
 │  Dashboard | Papers | Analyze | Analysis | Profile | Shared │
 └────────────────────┬────────────────────────────────────────┘
                      │ HTTP/REST
 ┌────────────────────▼────────────────────────────────────────┐
 │                  Backend (FastAPI)                          │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │ Routes: /api/analyze, /api/health, /api/history     │  │
-│  │ Services:                                            │  │
-│  │  • PDF Parser (PyMuPDF) — Extract text from PDFs    │  │
-│  │  • Groq Summarizer — AI analysis & Q&A             │  │
-│  │  • Supabase Service — User data & analysis storage │  │
-│  │  • ScaleDown Service — Text compression            │  │
-│  └──────────────────────────────────────────────────────┘  │
-└────────┬──────────────────────────────┬────────────────────┘
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │ Routes: /api/analyze, /api/health, /api/history      │   │ 
+│  │ Services:                                            │   │
+│  │  • PDF Parser (PyMuPDF) — Extract text from PDFs     │   │
+│  │  • Groq Summarizer — AI analysis & Q&A               │   │
+│  │  • Supabase Service — User data & analysis storage   │   │
+│  │  • ScaleDown Service — Text compression              │   │
+│  └──────────────────────────────────────────────────────┘   │
+└────────────────────▼────────────────────────────────────────┘
          │                              │
     ┌────▼────────┐          ┌──────────▼──────────┐
     │ Groq API    │          │ Supabase            │
