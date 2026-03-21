@@ -29,6 +29,8 @@ export default function Dashboard() {
   const totalTokensSaved = history.reduce((sum, item) => sum + (item.tokens_saved || 0), 0)
   const totalCo2Saved = (totalTokensSaved * 0.000001 * 708).toFixed(2)
   const costSaved = (totalTokensSaved * 0.0000025).toFixed(2)
+  const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+  const thisWeekAnalyses = history.filter((item) => new Date(item.created_at) >= weekAgo).length
 
   const handleDelete = async (id, name, e) => {
     e.stopPropagation()
@@ -58,7 +60,7 @@ export default function Dashboard() {
           <p className="font-label text-[10px] text-slate-500 uppercase tracking-widest mb-4">Documents Analyzed</p>
           <div className="flex items-baseline gap-2">
             <span className="font-headline text-4xl text-primary">{totalAnalyses.toLocaleString()}</span>
-            <span className="font-mono text-xs text-secondary">+0 this week</span>
+            <span className="font-mono text-xs text-secondary">+{thisWeekAnalyses} this week</span>
           </div>
         </div>
 
