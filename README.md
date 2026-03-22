@@ -6,8 +6,6 @@
 [![License](https://img.shields.io/badge/License-MIT-green)]()
 [![Stack](https://img.shields.io/badge/Stack-FastAPI%20%7C%20React%20%7C%20Supabase-orange)]()
 
-## 🚀 Live Demo
-https://drive.google.com/file/d/1AMwkcrUgQAkzLYWw7KuL_Uk85JRBxqNz/view?usp=drivesdk
 ---
 ## 🌐 Live Application
 [Access NyayaSetu](https://nyaysetuai.netlify.app)
@@ -519,8 +517,6 @@ This project is open source and available under the MIT License - see the [LICEN
 ## 📞 Support & Contact
 
 - **GitHub Issues:** [Report bugs](https://github.com/PriyanshuKr-2027/NyayaSetu/issues)
-- **Email:** [Your contact email]
-- **Twitter:** [@yourhandle]
 
 ---
 
@@ -533,6 +529,15 @@ This project is open source and available under the MIT License - see the [LICEN
 | 0.1 | Dec 2025 | MVP with basic functionality |
 
 ---
+
+## 👥 Team
+| Name | Role |
+|---|---|
+| Priyanshu Kumar | Team Lead, Backend, Deployment |
+| Ananya Gupta | Frontend, UI/UX |
+| Abhishek Singh | API Integration, Testing |
+
+Built for HPE GenAI for GenZ × ScaleDown Challenge
 
 **Created with ❤️ to make Indian laws accessible to everyone.**
 
