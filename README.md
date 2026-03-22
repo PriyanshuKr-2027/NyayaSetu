@@ -1,4 +1,4 @@
-# ⚖️ NyayaSetu — India's Bridge Between Law and Citizens
+# ⚖️ NyayaSetu — India's Bridge Between Law and Citizens [Demo Included]
 
 > **NyayaSetu** (नयायसेतु) is an AI-powered legal document analysis platform designed to make Indian laws, bills, and legal documents understandable for everyday citizens.
 
@@ -6,7 +6,11 @@
 [![License](https://img.shields.io/badge/License-MIT-green)]()
 [![Stack](https://img.shields.io/badge/Stack-FastAPI%20%7C%20React%20%7C%20Supabase-orange)]()
 
+## 🚀 Live Demo
+https://drive.google.com/file/d/1AMwkcrUgQAkzLYWw7KuL_Uk85JRBxqNz/view?usp=drivesdk
 ---
+## 🌐 Live Application
+[Access NyayaSetu](https://nyaysetuai.netlify.app)
 
 ## ▶️ Demo
 
